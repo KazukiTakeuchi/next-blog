@@ -1,6 +1,7 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
+import utilStyles from '../styles/utils.module.css'
+import styles from './layout.module.css'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -9,18 +10,17 @@ interface LayoutProps {
 const Layout: NextPage<LayoutProps> = ({ children }) => {
   const blogName = 'KazuTech blog'
   return (
-    <div>
+    <div className={styles.container}>
       <Head>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <header>
-        <Image
+      <header className={styles.header}>
+        <img
           src="/images/me.png"
           alt="KazuTechブログのプロフィール画像"
-          width={140}
-          height={120}
+          className={`${styles.headerImage} ${utilStyles.borderCircle}`}
         />
-        <h1>{blogName}</h1>
+        <h1 className={utilStyles.heading2Xl}>{blogName}</h1>
       </header>
       <main>{children}</main>
     </div>
