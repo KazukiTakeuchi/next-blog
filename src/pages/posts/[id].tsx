@@ -40,9 +40,3 @@ const Post: NextPage = ({ postData }) => {
 }
 
 export default Post
-みのぐちまゆ
-みのぐちまゆ
-みのぐちまゆ
-竹内一輝
-最高のうち心地
-いいやんええやんさいこうやんまゆみのぐち
