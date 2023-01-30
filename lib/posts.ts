@@ -27,3 +27,37 @@ export function getPostsData() {
   //   }
   // })
 }
+
+export const getAllPostIds = () => {
+  const fileNames = fs.readdirSync(postsDirectory)
+  return fileNames.map((fileName) => {
+    return {
+      params: {
+        id: fileName.replace(/\.md$/, ''),
+      },
+    }
+  })
+}
+
+//idに基づいてブログの投稿データを返す
+export async function getPostData(id: string) {
+  const fullPath = path.join(postsDirectory, `${id}.md`)
+  const fileContents = fs.readFileSync(fullPath, 'utf8')
+
+  const matterResult = matter(fileContents)
+
+  // マークダウンをHTML文字列に変換するためにremarkを使う
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResult.content);
+
+  const contentHTML = processedContent.toString();
+  // console.log(contentHTML);
+
+  //データをidと組み合わせる。
+  return {
+    id,
+    contentHTML,
+    ...matterResult.data,
+  }
+}
