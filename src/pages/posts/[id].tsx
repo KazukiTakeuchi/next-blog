@@ -1,8 +1,23 @@
-import { NextPage } from 'next'
+import { ParsedUrlQuery } from 'querystring'
+import { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import utilStyles from '../../styles/utils.module.css'
 import Layout from '@/components/Layout'
-import { getAllPostIds } from 'lib/posts'
+import { getAllPostIds, getPostData } from 'lib/posts'
+
+type Props = {
+  postData: {
+    id: string
+    contentHTML: string
+    title: string
+    date: string
+    thumbnail: string
+  }
+}
+
+interface Params extends ParsedUrlQuery {
+  id: string
+}
 
 export const getStaticPaths = () => {
   const paths = getAllPostIds()
@@ -13,10 +28,11 @@ export const getStaticPaths = () => {
   }
 }
 
-export const getStaticProps = async ({ params }) => {
-  const postData = await getPostData(params.id)
+export const getStaticProps: GetStaticProps<Props, Params> = async ({
+  params,
+}) => {
+  const postData = await getPostData(params!.id)
 
-  console.log(postData)
   return {
     props: {
       postData,
@@ -24,7 +40,7 @@ export const getStaticProps = async ({ params }) => {
   }
 }
 
-const Post: NextPage = ({ postData }) => {
+const Post: NextPage<Props> = ({ postData }) => {
   return (
     <Layout>
       <Head>
