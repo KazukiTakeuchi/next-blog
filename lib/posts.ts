@@ -1,6 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
+import { remark } from 'remark'
+import html from 'remark-html'
 
 const postsDirectory = path.join(process.cwd(), 'posts')
 
@@ -40,7 +42,7 @@ export const getAllPostIds = () => {
 }
 
 //idに基づいてブログの投稿データを返す
-export async function getPostData(id: string) {
+export const getPostData = async (id: string) => {
   const fullPath = path.join(postsDirectory, `${id}.md`)
   const fileContents = fs.readFileSync(fullPath, 'utf8')
 
@@ -49,9 +51,9 @@ export async function getPostData(id: string) {
   // マークダウンをHTML文字列に変換するためにremarkを使う
   const processedContent = await remark()
     .use(html)
-    .process(matterResult.content);
+    .process(matterResult.content)
 
-  const contentHTML = processedContent.toString();
+  const contentHTML = processedContent.toString()
   // console.log(contentHTML);
 
   //データをidと組み合わせる。
