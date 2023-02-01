@@ -26,7 +26,6 @@ export const getStaticProps = () => {
 }
 
 const Home: NextPage<Props> = ({ allPostsData }) => {
-  console.log({ allPostsData })
   return (
     <Layout>
       <section className={utilStyles.headingMd}>
